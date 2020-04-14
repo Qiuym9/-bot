@@ -1,8 +1,8 @@
 # -*-coding:utf-8-*-
 from flask import Flask, render_template
-from main import speechRecorder
+from Nlp.main import speechRecorder
 import time
-from main import xunFei_aip
+from Nlp.main import xunFei_aip
 
 app = Flask(__name__)
 

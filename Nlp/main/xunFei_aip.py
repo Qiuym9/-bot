@@ -1,7 +1,7 @@
 # -*-coding:utf-8 -*-
 import pyaudio
 import wave
-from main.xunfei_text_to_voice import textToVoice
+from Nlp.main.xunfei_text_to_voice import textToVoice
 
 output_filePath = "./voice/output.wav"
 

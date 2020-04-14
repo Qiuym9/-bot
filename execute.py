@@ -14,8 +14,9 @@ from tensorflow.keras.layers import RepeatVector, Dense, TimeDistributed
 
 import pre_train
 
+
 def XY_vector(X,Y):
-    model = word2vec.Word2Vec.load('word_vector/Word60.model')
+    model = word2vec.Word2Vec.load('D:/Python/PycharmProject/-bot-master/word_vector/Word60.model')
     
     X_v=[]
     
@@ -50,8 +51,9 @@ def XY_vector(X,Y):
                 stv.append(sentend)
     return X_v,Y_v
 
+
 def seq2seq(X_vector, Y_vector):
-  #  print(len(X_vector[0][0]))
+    # print(len(X_vector[0][0]))
     # 将 X_vector、Y_vector 转化为数组形式
     X_vector = np.array(X_vector, dtype=np.float32)
     Y_vector = np.array(Y_vector, dtype=np.float32)
@@ -92,10 +94,10 @@ def seq2seq(X_vector, Y_vector):
 
     return model
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     X, Y = pre_train.XY()
-    #X_list, Y_list=pre_train.word_segment(X,Y)
+    # X_list, Y_list=pre_train.word_segment(X,Y)
     X_list, Y_list=pre_train.word_segment2(X,Y)
     X_vector, Y_vector = XY_vector(X_list, Y_list)
     model = seq2seq(X_vector, Y_vector)
