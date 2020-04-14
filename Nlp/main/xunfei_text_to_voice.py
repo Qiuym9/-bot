@@ -14,8 +14,8 @@ from time import mktime
 import _thread as thread
 import os
 import wave
-from main.interact import answer     # 此为模型生成回答文本的方法
-from main.xunfei_voice_to_text import voiceToText
+from test import answer     # 此为模型生成回答文本的方法
+from Nlp.main.xunfei_voice_to_text import voiceToText
 
 filePath = "./voice/output.pcm"
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
