@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ZH" class="no-js">
+
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="../static/image/icon.png">
+	<!-- Author Meta -->
+	<!--<meta name="author" content="codepixer">-->
+	<!-- Meta Description -->
+	<meta name="description" content="银行语音应答系统">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="语音识别，演示系统">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>银行语音应答系统</title>
+
+	<!--======================CSS链接外部样式文件======================= -->
+	<link rel="stylesheet" href="../static/css/linearicons.css">
+	<link rel="stylesheet" href="../static/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../static/css/bootstrap.css">
+	<link rel="stylesheet" href="../static/css/magnific-popup.css">
+	<link rel="stylesheet" href="../static/css/nice-select.css">
+	<link rel="stylesheet" href="../static/css/animate.min.css">
+	<link rel="stylesheet" href="../static/css/owl.carousel.css">
+	<link rel="stylesheet" href="../static/css/main.css">
+</head>
+
+<body>
+	<!-- Start Header Area -->
+	<header id="header">
+	</header>
+	<!-- End Header Area -->
+	<!-- Start Banner Area -->
+	<section class="home-banner-area relative">
+		<div class="container">
+			<div class="row fullscreen d-flex align-items-center justify-content-center">
+				<div class="banner-content col-lg-8 col-md-12">
+					<h1 class="wow fadeIn" data-wow-duration="4s">银行语音应答系统</h1>
+					<p class="text-white">
+					请点击以下三个按钮完成操作
+					</p>
+					<div class="input-wrap">
+						<form action="" method="post" name="speech" class="form-box d-flex justify-content-between">
+							<button type="button" id="recorder" class="btn search-btn" style="display:block;margin:0 auto" onclick="speechRecorder()">开始提问</button>
+							<button type="button" id="stop_recorder" class="btn search-btn" style="display:block;margin:0 auto" onclick="stopRecorder()">结束提问</button>
+							<button type="button" id="recognize" class="btn search-btn" style="display:block;margin:0 auto" onclick="recognizeSpeech()">获得解答</button>
+						</form>
+					</div>
+					<h4 class="text-white" style="display:none" id="resTitle">解答如下</h4>
+					<div class="courses pt-40">
+					  <textarea  id="ASR-Result"  class="primary-btn transparent mr-10 mb-10 wow fadeInDown" style="display:none"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+    <!-- Javascript -->
+    <script src="../static/js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="../static/js/vendor/bootstrap.min.js"></script>
+	<script src="../static/js/easing.min.js"></script>
+	<script src="../static/js/hoverIntent.js"></script>
+	<script src="../static/js/superfish.min.js"></script>
+	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="../static/js/jquery.magnific-popup.min.js"></script>
+	<script src="../static/js/owl.carousel.min.js"></script>
+	<script src="../static/js/owl-carousel-thumb.min.js"></script>
+	<script src="../static/js/jquery.sticky.js"></script>
+	<script src="../static/js/jquery.nice-select.min.js"></script>
+	<script src="../static/js/parallax.min.js"></script>
+	<script src="../static/js/waypoints.min.js"></script>
+	<script src="../static/js/wow.min.js"></script>
+	<script src="../static/js/jquery.counterup.min.js"></script>
+	<script src="../static/js/mail-script.js"></script>
+	<script src="../static/js/main.js"></script>
+	<script src="../static/layer/layer.js"></script>
+	<!-- 为录音按钮绑定方法 -->
+	<script type="text/javascript">
+		function speechRecorder() {
+			console.log("开始录音……")
+			alert("注意！录音时长请不要超过60秒！")   // 警告弹窗
+			$.ajax(
+			{
+				type: "POST",
+				url: "/speech",
+				error: function(request) {
+					return;
+				},
+				beforeSend: function(XMLHttpRequest) {
+					$(".text-white").css('display','none');
+					$("#ASR-Result").css('display','none');
+					layer.msg('录音中……', {
+					  icon: 16,
+					  shade: 0.01
+					});
+				},
+				success: function(res) {
+					//此处演示关闭
+					setTimeout(function(){
+					  layer.closeAll('loading');
+					}, 1000);	
+					return;		  			
+				}
+			})
+		}
+		function stopRecorder() {
+			$.ajax(
+			{
+				type: "POST",
+				url: "/stopSpeech",
+				error: function(request) {
+					return;
+				},
+				beforeSend: function(XMLHttpRequest) {
+					layer.msg('正在停止……!');
+				},
+				success: function(res) {
+					//此处演示关闭
+					setTimeout(function(){
+					  layer.closeAll('loading');
+					}, 1000);
+					layer.msg('录音结束!');
+				}
+			})
+		}
+		function recognizeSpeech() {
+			console.log("开始识别……")
+			$.ajax(
+			{
+				type: "POST",
+				url: "/recognize",
+				dataType: "text",
+				error: function(request) {
+					return;
+				},
+				beforeSend: function(XMLHttpRequest) {
+					layer.msg('正在识别中……', {
+					  icon: 16,
+					  shade: 0.01
+					});
+				},
+				success: function(res) {
+					$(".text-white").css('display','block');
+					$("#ASR-Result").css('display','block');
+					// var resId = document.getElementById("ASR-Result");
+					$("#ASR-Result").text(res)
+					// console.log(res)
+				}
+			})
+		}
+	</script>
+</body>
+</html>
